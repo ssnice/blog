@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hrcl.blog.dao.ArticleMapper" >
+  <resultMap id="BaseResultMap" type="com.hrcl.blog.domain.Article" >
+    <id column="aid" property="aid" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="author" property="author" jdbcType="VARCHAR" />
+    <result column="viewed" property="viewed" jdbcType="INTEGER" />
+    <result column="imgurl" property="imgurl" jdbcType="VARCHAR" />
+    <result column="appreciates" property="appreciates" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.hrcl.blog.domain.Article" extends="BaseResultMap" >
+    <result column="body" property="body" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    aid, title, author, viewed, imgurl, appreciates
+  </sql>
+  <sql id="Blob_Column_List" >
+    body
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from article
+    where aid = #{aid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from article
+    where aid = #{aid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hrcl.blog.domain.Article" >
+    insert into article (aid, title, author,
+    viewed, imgurl, appreciates,
+    body)
+    values (#{aid,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR},
+    #{viewed,jdbcType=INTEGER}, #{imgurl,jdbcType=VARCHAR}, #{appreciates,jdbcType=INTEGER},
+    #{body,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hrcl.blog.domain.Article" >
+    insert into article
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="aid != null" >
+        aid,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="author != null" >
+        author,
+      </if>
+      <if test="viewed != null" >
+        viewed,
+      </if>
+      <if test="imgurl != null" >
+        imgurl,
+      </if>
+      <if test="appreciates != null" >
+        appreciates,
+      </if>
+      <if test="body != null" >
+        body,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="aid != null" >
+        #{aid,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="viewed != null" >
+        #{viewed,jdbcType=INTEGER},
+      </if>
+      <if test="imgurl != null" >
+        #{imgurl,jdbcType=VARCHAR},
+      </if>
+      <if test="appreciates != null" >
+        #{appreciates,jdbcType=INTEGER},
+      </if>
+      <if test="body != null" >
+        #{body,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hrcl.blog.domain.Article" >
+    update article
+    <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="viewed != null" >
+        viewed = #{viewed,jdbcType=INTEGER},
+      </if>
+      <if test="imgurl != null" >
+        imgurl = #{imgurl,jdbcType=VARCHAR},
+      </if>
+      <if test="appreciates != null" >
+        appreciates = #{appreciates,jdbcType=INTEGER},
+      </if>
+      <if test="body != null" >
+        body = #{body,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where aid = #{aid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.hrcl.blog.domain.Article" >
+    update article
+    set title = #{title,jdbcType=VARCHAR},
+    author = #{author,jdbcType=VARCHAR},
+    viewed = #{viewed,jdbcType=INTEGER},
+    imgurl = #{imgurl,jdbcType=VARCHAR},
+    appreciates = #{appreciates,jdbcType=INTEGER},
+    body = #{body,jdbcType=LONGVARCHAR}
+    where aid = #{aid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hrcl.blog.domain.Article" >
+    update article
+    set title = #{title,jdbcType=VARCHAR},
+    author = #{author,jdbcType=VARCHAR},
+    viewed = #{viewed,jdbcType=INTEGER},
+    imgurl = #{imgurl,jdbcType=VARCHAR},
+    appreciates = #{appreciates,jdbcType=INTEGER}
+    where aid = #{aid,jdbcType=INTEGER}
+  </update>
+</mapper>
